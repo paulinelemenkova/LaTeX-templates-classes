@@ -1,0 +1,32 @@
+\documentclass[letterpaper]{ltxdoc}
+\usepackage[hmargin={3.5 cm,1.5cm},
+   top=1.5cm, marginpar=3.5cm
+   ]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+   \hypersetup{colorlinks, linkcolor=blue, urlcolor=blue}
+\usepackage{multicol}
+\usepackage{lipsum}
+
+
+\begin{document}
+\title{\textsf{Device Notes}}
+\author{Polina Lemenkova 
+\\Skunkworks Division}
+\maketitle
+
+\abstract{\lipsum[3]}
+\tableofcontents
+\addtocontents{toc}{%
+    \protect\setlength{\columnsep}{5pc}
+    \protect\begin{multicols}{2}}
+\section{The Device}
+\lipsum[30]
+\section{How to Install}
+\lipsum[33]
+\section{How to Use}
+\lipsum[37]
+\section{Other Applications}
+\lipsum[41]
+\addtocontents{toc}{\protect\end{multicols}}
+\end{document}
