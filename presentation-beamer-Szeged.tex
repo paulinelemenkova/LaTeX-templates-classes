@@ -1,0 +1,44 @@
+\documentclass[pdflatex,compress,8pt,
+	xcolor={dvipsnames,dvipsnames,svgnames,x11names,table},
+	hyperref={colorlinks = true,breaklinks = true, urlcolor = NavyBlue, breaklinks = true}]{beamer}
+\usetheme{Szeged}
+\setbeamertemplate{background}[grid][step=1cm]
+
+\usecolortheme[named=PaleGreen2]{structure}
+
+% \setbeamertemplate{itemize item}{$\Rightarrow$}
+ %   \setbeamertemplate{itemize item}[double arrow]
+ 
+ \setbeamertemplate{itemize items}[circle]
+
+\title{Example Presentation Created with the Beamer Package}
+\author{Till Tantau}
+         \date{\today}
+
+\begin{document}
+\begin{frame}
+           \titlepage
+\end{frame}
+
+\section*{Outline}
+        \begin{frame}
+           \tableofcontents
+         \end{frame}
+
+\section{Introduction}
+         \subsection{Overview of the Beamer Class}
+\begin{itemize}
+	\item hi
+	\item hi
+\end{itemize}
+         \subsection{Overview of Similar Classes}
+
+\section{Usage} \subsection{...} \subsection{...}
+
+\section{Examples} \subsection{...}
+
+\subsection{Landsat}
+         \begin{frame}
+         \end{frame} % to enforce entries in the table of contents
+
+\end{document}
