@@ -1,0 +1,389 @@
+\documentclass[pdflatex,compress,8pt,
+	xcolor={dvipsnames,dvipsnames,svgnames,x11names,table},
+	hyperref={
+	breaklinks = true, 
+	pdfauthor={Lemenkova Polina}, 
+	pdfsubject={Preentation}, 
+	pdfcreator={Lemenkova Polina}, 
+	pdfproducer={Lemenkova Polina}, 
+%	colorlinks=true,linkcolor=blue, 
+	citecolor=NavyBlue, 
+	urlbordercolor=cyan,
+	urlcolor = NavyBlue, 
+	breaklinks = true}]{beamer}
+\usetheme{Metro} % Copenhagen
+%\usecolortheme[named=OliveDrab4]{structure}
+
+% ----------------------------------------------------------------------------
+% *** START BIBLIOGRAPHY <<<
+% ----------------------------------------------------------------------------
+\usepackage[
+	backend=biber, 
+%	style = numeric,
+	style = phys,
+	maxbibnames=99,
+	citestyle=numeric,
+	giveninits=true,
+	isbn=true,
+	url=true,
+	natbib=true,
+	sorting=ndymdt,
+	bibencoding=utf8,
+	useprefix=false,
+	language=auto, 
+	autolang=other,
+	backref=true,
+	backrefstyle=none,
+	indexing=cite,
+]{biblatex}
+\DeclareSortingTemplate{ndymdt}{
+  \sort{
+    \field{presort}
+  }
+  \sort[final]{
+    \field{sortkey}
+  }
+  \sort{
+    \field{sortname}
+    \field{author}
+    \field{editor}
+    \field{translator}
+    \field{sorttitle}
+    \field{title}
+  }
+  \sort[direction=descending]{
+    \field{sortyear}
+    \field{year}
+    \literal{9999}
+  }
+  \sort[direction=descending]{
+    \field[padside=left,padwidth=2,padchar=0]{month}
+    \literal{99}
+  }
+  \sort[direction=descending]{
+    \field[padside=left,padwidth=2,padchar=0]{day}
+    \literal{99}
+  }
+  \sort{
+    \field{sorttitle}
+  }
+  \sort[direction=descending]{
+    \field[padside=left,padwidth=4,padchar=0]{volume}
+    \literal{9999}
+  }
+}
+
+\addbibresource{Sudetes.bib}%  \scriptsize \footnotesize
+\renewcommand*{\bibfont}{\tiny} % 
+
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+% ----------------------------------------------------------------------------
+% *** END BIBLIOGRAPHY <<<
+% ----------------------------------------------------------------------------
+
+% Путь к файлам с иллюстрациями
+\graphicspath{{fig/}} % path to folder with Figures
+
+\usepackage{gensymb} % degree symbol
+\usepackage[super]{nth}
+\usepackage{amsmath}
+\usepackage{subfig}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[Image Processing and Analysis...]{Image Processing and Analysis of Change Detection in the Land Cover Types of the Sudetes by Idrisi GIS}
+
+\author[Polina Lemenkova]{Polina Lemenkova}
+
+\institute{Polina Lemenkova: \footnotesize{July 15, 2010.
+GEM MSc Course, University of Warsaw}}
+\date{July 15, 2010}
+
+\begin{document}
+\begin{frame}
+           \titlepage
+\end{frame}
+
+\section*{Outline}
+\begin{frame}
+           \tableofcontents
+\end{frame}
+
+\section{Introduction}
+\subsection{Geographic Location of the Sudetes}
+\begin{frame}\frametitle{Geographic Location of the Sudetes}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{figure}[H]
+	\centering
+		\subfloat {\includegraphics[width=4.0cm]{F2.jpg}}
+			\hspace{5mm}
+		\subfloat {\includegraphics[width=4.0cm]{F3.jpg}}
+\end{figure}
+\end{column}
+\begin{column}{0.5\textwidth}
+\vspace{2em} 
+ The name Sudetes has been derived from Sudeti montes Sudetes consist of 3 parts:
+\begin{enumerate}
+	\item Western Sudetes, 
+	\item Central Sudetes, 
+	\item Eastern Sudetes 
+\end{enumerate}
+Study area is Western Sudetes: Karkonosze Mountains and Izera Mountains. Karkonosze National Park (Karkonoski Park Narodowy, KPN), created in 1959. Area: 55.8 $km^{2}$.
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=4.5cm]{F1.jpg}
+\end{figure}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+
+\subsection{Characteristics of the Study Area}
+\begin{frame}\frametitle{Characteristics of the Study Area}
+The city of Karpacz - one of the most notable towns located long the border of the Czech Republic and Poland, extending ca. 300 km between the Elbe and Oder rivers, Erzgebirge and Carpathians. KNP encompasses sensitive higher parts of the mountain range (altitude $>$ 900-1000m) and special nature reserves
+below this zone.
+\begin{itemize}
+	\item Geology: Granite, schist, shale and calcite 
+	\item Tectonics: Caledonian, Varescan
+	\item Period: Neoproterozoic, Palaeozoic :
+	\item Vegetation: 
+	\begin{itemize}
+		\item Alpine vegetation zone - 1,400 m: large rocky deserts
+		\item Subalpine zone above the timber line - 1,250 to 1,350 m: knee timber, mountain mat-grass meadows and subarctic highmoor, alpine grasslands
+		\item Spruce,mixedforest
+	\end{itemize}
+\end{itemize}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=8.0cm]{F0.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Environmental Problems in Sudety Mountains} 
+\begin{frame}\frametitle{Environmental Problems}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=4.5cm]{F5.jpg}
+\end{figure}
+\end{column}
+\begin{column}{0.6\textwidth}
+\begin{itemize}
+	\item Acid Rain: Between 1981-1987
+	\item Sources: NOx, SO2 and dust from 3 Lignite mines (Turoszow field, Lusatian field and North-Czech field) and 7 power plants
+	\item Impacts: 11,000 ha of spruce forest was destroyed in Sudety mountains and 15,000 hectares in North West Czech Republic and Saxony
+\end{itemize}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5.0cm]{F4.jpg}
+\end{figure}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+
+\section{Data}
+\begin{frame}\frametitle{Data}
+Idrisi GIS: visualizing raster images. 3 Raster images cover period of ca. 20 years (1984-2003): 1984, 11 July, 1992 and 2003, 17 August. 
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=10.0cm]{F6.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Raster Map of Karkonosze Mts}
+\begin{frame}\frametitle{Raster Map of Karkonosze Mts}
+Raster map of the Karkonosze Mts
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=10.0cm]{F7.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Raster Images of Sudetes}
+\begin{frame}\frametitle{Raster Images of Sudetes}
+Raster Images of Sudetes Mts: 1984 and 2003
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=10.0cm]{F8.jpg}
+\end{figure}
+\end{frame}
+
+\section{Methods: IDRISI GIS}
+\subsection{Unsupervised Classification by CLUSTER}
+\begin{frame}\frametitle{Unsupervised Classification by CLUSTER}
+Methods of this research are based on using IDRISI GIS. Unsupervised image classification was done using CLUSTER function
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=9.0cm]{F9.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{1984}
+\begin{frame}\frametitle{1984}
+Map of Land Cover Classes. Results of the Unsupervised Classification: July 1984.
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=9.0cm]{F10.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{2003}
+\begin{frame}\frametitle{2003}
+Map of Land Cover Classes. Results of the Unsupervised Classification. August 2003. 
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=9.0cm]{F11.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Reclassification}
+\begin{frame}\frametitle{Reclassification}
+Land Cover classes in Sudetes, 2003.
+Re-classed raster of Unsupervised Classification. After reclassification we can distinguish more clearly main land cover classes: Light blue - coniferous; dark blue - deciduous, red - fresh vegetation; orange - fields, light yellow - urban areas.
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=10.0cm]{F12.jpg}
+\end{figure}
+\end{frame}
+
+
+\subsection{IDRISI GIS: Supervised Classification}
+\begin{frame}\frametitle{IDRISI GIS: Supervised Classification}
+Supervised Classification of IDRISI GIS has 2 approaches. 
+
+\begin{block}{Minimal Distance (MINDIST) Method}
+This is the the simplest and fastest method of all classifiers. However, prone to incorrect classifications.
+\end{block}
+
+\begin{block}{Maximal Likelihood (MAXLIKE) Method}
+Evaluates the standard deviation of the reflectance values above the mean. The slowest technique but more accurate classification (provided the training sites are good).
+\end{block}
+
+\end{frame}
+
+\subsection{Supervised Classification: MINDIST Algorithm}
+\begin{frame}\frametitle{Supervised Classification: MINDIST Algorithm}
+\begin{minipage}[0.5\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{F13.jpg}
+\end{figure}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{figure}[H]
+	\centering
+		\subfloat {\includegraphics[width=3.0cm]{F14.jpg}}
+		\vspace{1mm}
+		\subfloat {\includegraphics[width=4.0cm]{F15.jpg}}
+\end{figure}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+
+\subsection{Raster Map 2003 by MINDIST}
+\begin{frame}\frametitle{Raster Map 2003 by MINDIST}
+Raster map of Land Cover Classes, 2003 (Supervised Classification, MINDIST)
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=9.0cm]{F16.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Raster Map 1984 by MINDIST}
+\begin{frame}\frametitle{Raster Map 1984 by MINDIST}
+Raster map of Land Cover Classes. 1984 (Supervised Classification, MINDIST)
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=9.0cm]{F17.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Supervised Classification by MINDIST, 1984}
+\begin{frame}\frametitle{Supervised Classification by MINDIST, 1984}
+Raster map of Land Cover Classes. 1984.
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=9.0cm]{F18.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Supervised Classification by MAXLIKE}
+\begin{frame}\frametitle{Supervised Classification by MAXLIKE}
+Supervised Classification:  Maximal Likelihood (MAXLIKE) algorithm of IDRISI GIS.
+Land Cover Classes, 1984. MAXLIKE approach.
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=9.0cm]{F19.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Land Cover Classes: MAXLIKE approach}
+\begin{frame}\frametitle{Land Cover Classes: MAXLIKE approach}
+Supervised Classification: Maximal Likelihood function of IDRISI.\\
+Land Cover Classes, 2003. MAXLIKE approach.
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=8.0cm]{F20.jpg}
+\end{figure}
+\end{frame}
+
+\subsection{Supervised Classification: MAXLIKE}
+\begin{frame}\frametitle{Supervised Classification: MAXLIKE}
+Supervised Classification: Maximal Likelihood function
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=8.0cm]{F21.jpg}
+\end{figure}
+\end{frame}
+
+\section{Literature}
+\begin{frame}\frametitle{Literature}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=11.0cm]{F22.jpg}
+\end{figure}
+\end{frame}
+
+\section{Thanks}
+\begin{frame}{Thanks}
+  	\centering \LARGE 
+  	\emph{Thank you for attention !}\\
+\end{frame}
+
+%%%%%%%%%%% Bibliography %%%%%%%
+
+\section{Bibliography}
+\begin{frame}\frametitle{Bibliography}
+%\vspace{4em}
+\scriptsize{Author's publications on geography, geoscience and environment: \cite{Lemenkova2006e}, \cite{Lemenkova2006b}, \cite{Lemenkova2006a}, \cite{Lemenkova2007b}, \cite{Lemenkova2004a}, \cite{Lemenkova2008b},  \cite{Lemenkova2005b1}, \cite{Lemenkova2005a}, \cite{Lemenkova2002b}.}
+%\nocite{*}
+\printbibliography[heading=none]
+\end{frame}
+
+%%%%%%%%%%% Bibliography %%%%%%%	
+
+%Changing the font size locally (from biggest to smallest):	
+%\Huge
+%\huge
+%\LARGE
+%\Large
+%\large
+%\normalsize (default)
+%\small
+%\footnotesize
+%\scriptsize
+%\tiny
+
+\end{document}
