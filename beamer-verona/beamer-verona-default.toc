@@ -1,0 +1,2 @@
+\beamer@sectionintoc {1}{The first section}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{See the documentation of the beamer class for details}{2}{0}{1}
