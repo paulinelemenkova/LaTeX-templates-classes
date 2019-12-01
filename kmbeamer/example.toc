@@ -1,0 +1,2 @@
+\beamer@sectionintoc {1}{Mathematical Story}{3}{0}{1}
+\beamer@sectionintoc {2}{More Mathematical Story}{10}{0}{2}
